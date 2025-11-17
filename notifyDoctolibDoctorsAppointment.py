@@ -2,6 +2,10 @@ from datetime import date, datetime, timedelta
 import json
 import urllib.parse
 import urllib.request
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(format='%(asctime)s %(message)s', filename='notifyDoctolibDoctorsAppointment.log', encoding='utf-8', level=logging.DEBUG)
 
 TELEGRAM_BOT_TOKEN = ''
 TELEGRAM_CHAT_ID = ''
@@ -62,6 +66,7 @@ isOnTheHour = datetime.now().minute == 0
 isHourlyNotificationDue = isOnTheHour and NOTIFY_HOURLY
 
 if not (earlierSlotExists or isHourlyNotificationDue):
+    logger.info('Exiting without notification.') 
     exit()
 
 message = ''
